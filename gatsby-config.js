@@ -18,7 +18,8 @@ module.exports = {
     description: `A blog to document my personal projects.`,
     siteUrl: `https://austinjamesbradshaw.com/`,
     social: {
-      twitter: `kylemathews`,
+      github: `https://github.com/austinjamesbradshaw/`,
+      linkedin: `https://www.linkedin.com/in/austin-bradshaw-3b403914a/`,
     },
   },
   plugins: [
@@ -91,7 +92,6 @@ module.exports = {
               ) {
                 nodes {
                   excerpt
-                  html
                   fields {
                     slug
                   }
