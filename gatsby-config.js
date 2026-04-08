@@ -9,13 +9,14 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `Austin's Blog`,
     author: {
-      name: `Kyle Mathews`,
-      summary: `who lives and works in San Francisco building useful things.`,
+      name: `Austin Bradshaw`,
+      title: `Fullstack Engineer · The Woodlands, TX`,
+      summary: `The best things you've ever used had something in common: somewhere along the way, someone was thinking about you. I hold this standard close.\n\nCurrently at Lockheed Martin building enterprise applications that empower employee experiences. Previously served as Founding Engineer of global SaaS, "Base".`,
     },
-    description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
+    description: `A blog to document my personal projects.`,
+    siteUrl: `https://austinjamesbradshaw.com/`,
     social: {
       twitter: `kylemathews`,
     },
@@ -66,6 +67,7 @@ module.exports = {
           {
             site {
               siteMetadata {
+                project
                 title
                 description
                 siteUrl
@@ -96,6 +98,7 @@ module.exports = {
                     slug
                   }
                   frontmatter {
+                    project
                     title
                     date
                   }
