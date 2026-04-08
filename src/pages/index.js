@@ -30,7 +30,7 @@ const BlogIndex = ({ data, location }) => {
               key={project.fields.slug}
               to={project.fields.slug}
               itemProp="url"
-              className="group hover:shadow active:shadow-xs p-4 transition-shadow rounded bg-card text-card-foreground border border-border"
+              className="group hover:border-secondary transition-colors p-4 rounded bg-card text-card-foreground border border-border"
             >
               <article
                 itemScope
@@ -38,7 +38,7 @@ const BlogIndex = ({ data, location }) => {
                 className="gap-4 sm:gap-6 flex flex-col-reverse sm:flex-row"
               >
                 <div>
-                  <h3 className="text-lg mb-1.5 font-semibold group-hover:text-primary">
+                  <h3 className="text-lg mb-1.5 font-semibold group-hover:text-primary transition-colors">
                     <span itemProp="headline">{title}</span>
                   </h3>
                   <p

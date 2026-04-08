@@ -10,6 +10,18 @@ const ProjectTemplate = ({ data, children, location }) => {
 
   const hasDevlogs = devlogs.length > 0
 
+  const [sortOrder, setSortOrder] = React.useState("Newest First")
+  const handleSort = () =>
+    setSortOrder(prev =>
+      prev === "Newest First" ? "Oldest First" : "Newest First"
+    )
+  const sortDevlogs = (a, b) =>
+    sortOrder === "Newest First"
+      ? new Date(b.frontmatter.date).getTime() -
+        new Date(a.frontmatter.date).getTime()
+      : new Date(a.frontmatter.date).getTime() -
+        new Date(b.frontmatter.date).getTime()
+
   return (
     <Layout location={location} projectName={project.frontmatter.title}>
       <article>
@@ -17,21 +29,42 @@ const ProjectTemplate = ({ data, children, location }) => {
 
         {hasDevlogs && (
           <section>
-            <h3 className="mb-4 uppercase font-semibold">Dev Log</h3>
-
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-muted-foreground text-sm tracking-wider font-mono uppercase">
+                Dev Log
+              </h3>
+              <button
+                className="font-mono text-sm hover:text-primary text-muted-foreground cursor-pointer"
+                onClick={handleSort}
+              >
+                <span className="text-lg leading-none">↕</span> {sortOrder}
+              </button>
+            </div>
             <div className="flex flex-col">
-              {devlogs.map(log => (
+              {devlogs.sort(sortDevlogs).map(log => (
                 <Link
                   to={log.fields.slug}
-                  className="hover:opacity-80 pb-4 mb-4 border-b border-border last:border-b-0"
+                  className="group not-first:-mt-px first:rounded-t last:rounded-b p-4 transition-colors bg-card text-card-foreground border border-border hover:z-10 focus:z-10 hover:border-secondary"
                 >
                   <div key={log.fields.slug}>
-                    <h3>{log.frontmatter.title}</h3>
-                    <small>{log.frontmatter.date}</small>
-
-                    {log.excerpt && <p>{log.excerpt}</p>}
-
-                    <Link to={log.fields.slug}>{"Read more =>"}</Link>
+                    <small className="text-xs mb-2 text-muted-foreground font-mono">
+                      {log.frontmatter.date}
+                    </small>
+                    <h3 className="text-lg mb-1.5 font-semibold group-hover:text-primary transition-colors">
+                      {log.frontmatter.title}
+                    </h3>
+                    {log.frontmatter.excerpt && (
+                      <p className="text-sm text-muted-foreground">
+                        {log.frontmatter.excerpt}
+                      </p>
+                    )}
+                    <div className="flex flex-wrap gap-2">
+                      {log.frontmatter.tech?.map(tech => (
+                        <div className="px-2 rounded-lg mt-2.5 py-0.5 bg-primary/10 text-primary font-mono w-fit text-xs">
+                          {tech}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </Link>
               ))}
@@ -82,8 +115,9 @@ export const pageQuery = graphql`
         frontmatter {
           title
           date(formatString: "MMMM DD, YYYY")
+          excerpt
+          tech
         }
-        excerpt(pruneLength: 160)
       }
     }
   }
