@@ -1,7 +1,6 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
 
-import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
@@ -12,7 +11,12 @@ const BlogPostTemplate = ({
   const siteTitle = site.siteMetadata?.title || `Title`
 
   return (
-    <Layout location={location} title={siteTitle}>
+    <Layout
+      location={location}
+      title={siteTitle}
+      projectName={post.frontmatter.project}
+      postTitle={post.frontmatter.title}
+    >
       <article
         className="blog-post"
         itemScope
@@ -26,10 +30,6 @@ const BlogPostTemplate = ({
           dangerouslySetInnerHTML={{ __html: post.html }}
           itemProp="articleBody"
         />
-        <hr />
-        <footer>
-          <Bio />
-        </footer>
       </article>
       <nav className="blog-post-nav">
         <ul
@@ -88,6 +88,7 @@ export const pageQuery = graphql`
       excerpt(pruneLength: 160)
       html
       frontmatter {
+        project
         title
         date(formatString: "MMMM DD, YYYY")
         description

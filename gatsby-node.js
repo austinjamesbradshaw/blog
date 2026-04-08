@@ -113,6 +113,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
 
     type Frontmatter {
+      project: String
       title: String
       description: String
       date: Date @dateformat
