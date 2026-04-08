@@ -18,45 +18,51 @@ const BlogIndex = ({ data, location }) => {
 
   return (
     <Layout location={location} title={siteTitle}>
-      <h2 className="text-2xl font-bold mb-4">Projects</h2>
-
-      <ol className="flex flex-col">
+      <h2 className="text-muted-foreground text-sm tracking-wider mb-4 font-mono uppercase">
+        Things I've made
+      </h2>
+      <div className="flex flex-col gap-4">
         {projects.map(project => {
           const title = project.frontmatter.title || project.fields.slug
 
           return (
-            <li
+            <Link
               key={project.fields.slug}
-              className="pb-4 mb-4 border-b border-border last:border-b-0"
+              to={project.fields.slug}
+              itemProp="url"
+              className="group hover:shadow active:shadow-xs p-4 transition-shadow rounded bg-card text-card-foreground border border-border"
             >
-              <Link
-                to={project.fields.slug}
-                itemProp="url"
-                className="hover:opacity-80"
+              <article
+                itemScope
+                itemType="http://schema.org/Article"
+                className="gap-4 sm:gap-6 flex flex-col-reverse sm:flex-row"
               >
-                <article itemScope itemType="http://schema.org/Article">
-                  <header>
-                    <h2>
-                      <span itemProp="headline">{title}</span>
-                    </h2>
-                    <small>{project.frontmatter.date}</small>
-                  </header>
-                  <section>
-                    <p
-                      dangerouslySetInnerHTML={{
-                        __html:
-                          project.frontmatter.description || project.excerpt,
-                      }}
-                      itemProp="description"
-                    />
-                  </section>
-                  {"Read more =>"}
-                </article>
-              </Link>
-            </li>
+                <div>
+                  <h3 className="text-lg mb-1.5 font-semibold group-hover:text-primary">
+                    <span itemProp="headline">{title}</span>
+                  </h3>
+                  <p
+                    className="text-sm text-muted-foreground"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        project.frontmatter.description || project.excerpt,
+                    }}
+                    itemProp="description"
+                  />
+                  <div className="flex flex-wrap gap-2">
+                    {project.frontmatter.tech.map(tech => (
+                      <div className="px-2 rounded-lg mt-2.5 py-0.5 bg-primary/10 text-primary font-mono w-fit text-xs">
+                        {tech}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="size-18 sm:size-26 bg-secondary/50 rounded-md shrink-0" />
+              </article>
+            </Link>
           )
         })}
-      </ol>
+      </div>
     </Layout>
   )
 }
