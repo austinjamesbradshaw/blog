@@ -23,7 +23,7 @@ const CompactHeader = ({ location, projectName, devlogTitle }) => {
   const isDevlog = !!devlogTitle
 
   return (
-    <header className="flex items-center gap-3 mb-8 pb-6 border-b border-border pt-10 lg:pt-16">
+    <header className="flex items-center gap-3 mb-8 pb-6 border-b border-border pt-10">
       <Link to="/" className="flex items-center gap-3 group min-w-0">
         <StaticImage
           className="w-9 h-9 rounded-full object-cover flex-shrink-0"

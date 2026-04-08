@@ -25,7 +25,7 @@ const BioHeader = () => {
   const social = data.site.siteMetadata?.social
 
   return (
-    <header className="flex items-start gap-6 mb-8 p-8 px-4 border-b border-border pt-10 sm:p-0 sm:pb-8 sm:pt-16 ">
+    <header className="flex items-start gap-6 mb-8 px-4 border-b border-border pt-10 p-8 sm:px-0">
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 max-w-2xl">
         <StaticImage
           className="w-14 h-14 rounded-full object-cover"
