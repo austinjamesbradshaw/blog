@@ -1,82 +1,164 @@
 /**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/reference/config-files/gatsby-node/
+ * @type {import('gatsby').GatsbyNode['onCreateNode']}
  */
+exports.onCreateNode = ({ node, actions, getNode }) => {
+  const { createNodeField } = actions
 
-const path = require(`path`)
-const { createFilePath } = require(`gatsby-source-filesystem`)
+  if (node.internal.type === `Mdx`) {
+    const parent = getNode(node.parent)
+    if (!parent) return
 
-// Define the template for blog post
-const blogPost = path.resolve(`./src/templates/blog-post.js`)
+    const relativePath = parent.relativePath || ""
+    const relativeDirectory = parent.relativeDirectory || ""
 
-/**
- * @type {import('gatsby').GatsbyNode['createPages']}
- */
-exports.createPages = async ({ graphql, actions, reporter }) => {
+    const projectSlug =
+      relativeDirectory.split("/")[0] || parent.name || "unknown"
+
+    createNodeField({
+      node,
+      name: "projectSlug",
+      value: projectSlug,
+    })
+
+    createNodeField({
+      node,
+      name: "isProjectOverview",
+      value: parent.name === "index" || relativePath.endsWith("index.mdx"),
+    })
+
+    createNodeField({
+      node,
+      name: "isDevlog",
+      value: relativeDirectory.includes("devlogs"),
+    })
+
+    let slug = ""
+    if (relativeDirectory.includes("devlogs")) {
+      const devlogSlug = parent.name
+      createNodeField({
+        node,
+        name: "devlogSlug",
+        value: devlogSlug,
+      })
+      slug = `/projects/${projectSlug}/devlogs/${devlogSlug}/`
+    } else {
+      slug = `/projects/${projectSlug}/`
+    }
+
+    if (!slug || slug === "/") {
+      slug = `/projects/${projectSlug}/`
+    }
+
+    createNodeField({
+      node,
+      name: "slug",
+      value: slug,
+    })
+  }
+}
+
+exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  // Get all markdown blog posts sorted by date
   const result = await graphql(`
-    {
-      allMarkdownRemark(sort: { frontmatter: { date: ASC } }, limit: 1000) {
+    query {
+      allMdx(
+        filter: { fields: { projectSlug: { ne: null } } }
+        sort: { frontmatter: { date: ASC } }
+      ) {
         nodes {
           id
           fields {
-            slug
+            projectSlug
+            devlogSlug
+            isProjectOverview
+            isDevlog
+          }
+          frontmatter {
+            title
+            date
+          }
+          internal {
+            contentFilePath
           }
         }
       }
     }
   `)
 
-  if (result.errors) {
-    reporter.panicOnBuild(
-      `There was an error loading your blog posts`,
-      result.errors
-    )
-    return
-  }
+  const allNodes = result.data.allMdx.nodes
 
-  const posts = result.data.allMarkdownRemark.nodes
+  const projectOverviews = allNodes.filter(
+    node => node.fields.isProjectOverview
+  )
 
-  // Create blog posts pages
-  // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
-  // `context` is available in the template as a prop and as a variable in GraphQL
+  projectOverviews.forEach(overview => {
+    const projectSlug = overview.fields.projectSlug
 
-  if (posts.length > 0) {
-    posts.forEach((post, index) => {
-      const previousPostId = index === 0 ? null : posts[index - 1].id
-      const nextPostId = index === posts.length - 1 ? null : posts[index + 1].id
+    createPage({
+      path: `/projects/${projectSlug}`,
+      component: `${require.resolve(
+        `./src/templates/project.js`
+      )}?__contentFilePath=${overview.internal.contentFilePath}`,
+      context: {
+        id: overview.id,
+        projectSlug,
+      },
+    })
+  })
+
+  const devlogs = allNodes.filter(node => node.fields.isDevlog)
+
+  const devlogsByProject = {}
+  devlogs.forEach(log => {
+    const project = log.fields.projectSlug
+    if (!devlogsByProject[project]) {
+      devlogsByProject[project] = []
+    }
+    devlogsByProject[project].push(log)
+  })
+
+  const projectTitles = {}
+  projectOverviews.forEach(overview => {
+    projectTitles[overview.fields.projectSlug] = overview.frontmatter.title
+  })
+
+  Object.keys(devlogsByProject).forEach(projectSlug => {
+    const projectDevlogs = devlogsByProject[projectSlug]
+    const projectTitle = projectTitles[projectSlug] || projectSlug // fallback
+
+    projectDevlogs.forEach((currentLog, index) => {
+      const prevLog = index > 0 ? projectDevlogs[index - 1] : null
+      const nextLog =
+        index < projectDevlogs.length - 1 ? projectDevlogs[index + 1] : null
 
       createPage({
-        path: post.fields.slug,
-        component: blogPost,
+        path: `/projects/${projectSlug}/devlogs/${currentLog.fields.devlogSlug}`,
+        component: `${require.resolve(
+          `./src/templates/devlog.js`
+        )}?__contentFilePath=${currentLog.internal.contentFilePath}`,
         context: {
-          id: post.id,
-          previousPostId,
-          nextPostId,
+          id: currentLog.id,
+          projectSlug,
+          projectTitle,
+          prev: prevLog
+            ? {
+                slug: prevLog.fields.devlogSlug,
+                title: prevLog.frontmatter.title,
+                date: prevLog.frontmatter.date,
+              }
+            : null,
+          next: nextLog
+            ? {
+                slug: nextLog.fields.devlogSlug,
+                title: nextLog.frontmatter.title,
+                date: nextLog.frontmatter.date,
+              }
+            : null,
         },
       })
     })
-  }
-}
-
-/**
- * @type {import('gatsby').GatsbyNode['onCreateNode']}
- */
-exports.onCreateNode = ({ node, actions, getNode }) => {
-  const { createNodeField } = actions
-
-  if (node.internal.type === `MarkdownRemark`) {
-    const value = createFilePath({ node, getNode })
-
-    createNodeField({
-      name: `slug`,
-      node,
-      value,
-    })
-  }
+  })
 }
 
 /**
@@ -85,42 +167,26 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
 exports.createSchemaCustomization = ({ actions }) => {
   const { createTypes } = actions
 
-  // Explicitly define the siteMetadata {} object
-  // This way those will always be defined even if removed from gatsby-config.js
-
-  // Also explicitly define the Markdown frontmatter
-  // This way the "MarkdownRemark" queries will return `null` even when no
-  // blog posts are stored inside "content/blog" instead of returning an error
   createTypes(`
-    type SiteSiteMetadata {
-      author: Author
-      siteUrl: String
-      social: Social
+    type MdxFields {
+      slug: String
+      projectSlug: String
+      devlogSlug: String
+      isProjectOverview: Boolean!
+      isDevlog: Boolean!
     }
 
-    type Author {
-      name: String
-      summary: String
-    }
-
-    type Social {
-      twitter: String
-    }
-
-    type MarkdownRemark implements Node {
-      frontmatter: Frontmatter
-      fields: Fields
+    type MdxFrontmatter {
+      title: String!
+      date: Date @dateformat
+      description: String
+      tech: [String!]
     }
 
     type Frontmatter {
-      project: String
       title: String
-      description: String
       date: Date @dateformat
-    }
-
-    type Fields {
-      slug: String
+      description: String
     }
   `)
 }

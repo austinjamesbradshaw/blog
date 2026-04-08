@@ -22,3 +22,17 @@ import "./src/global.css"
 
 // Highlighting for code blocks
 import "prismjs/themes/prism.css"
+
+import * as React from "react"
+import { MDXProvider } from "@mdx-js/react"
+
+const components = {
+  h2: props => <h2 className="text-2xl font-bold mb-4" {...props} />,
+  p: props => (
+    <p className="text-muted-foreground leading-relaxed mb-4" {...props} />
+  ),
+}
+
+export const wrapRootElement = ({ element }) => (
+  <MDXProvider components={components}>{element}</MDXProvider>
+)

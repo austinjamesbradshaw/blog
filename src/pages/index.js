@@ -6,50 +6,53 @@ import Seo from "../components/seo"
 
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
-  const posts = data.allMarkdownRemark.nodes
+  const projects = data.allMdx.nodes
 
-  if (posts.length === 0) {
+  if (projects.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
-        <p>
-          No blog posts found. Add markdown posts to "content/blog" (or the
-          directory you specified for the "gatsby-source-filesystem" plugin in
-          gatsby-config.js).
-        </p>
+        <p>No projects found.</p>
       </Layout>
     )
   }
 
   return (
     <Layout location={location} title={siteTitle}>
-      <ol style={{ listStyle: `none` }}>
-        {posts.map(post => {
-          const title = post.frontmatter.title || post.fields.slug
+      <h2 className="text-2xl font-bold mb-4">Projects</h2>
+
+      <ol className="flex flex-col">
+        {projects.map(project => {
+          const title = project.frontmatter.title || project.fields.slug
 
           return (
-            <li key={post.fields.slug}>
-              <article
-                className="post-list-item"
-                itemScope
-                itemType="http://schema.org/Article"
+            <li
+              key={project.fields.slug}
+              className="pb-4 mb-4 border-b border-border last:border-b-0"
+            >
+              <Link
+                to={project.fields.slug}
+                itemProp="url"
+                className="hover:opacity-80"
               >
-                <header>
-                  <h2>
-                    <Link to={post.fields.slug} itemProp="url">
+                <article itemScope itemType="http://schema.org/Article">
+                  <header>
+                    <h2>
                       <span itemProp="headline">{title}</span>
-                    </Link>
-                  </h2>
-                  <small>{post.frontmatter.date}</small>
-                </header>
-                <section>
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: post.frontmatter.description || post.excerpt,
-                    }}
-                    itemProp="description"
-                  />
-                </section>
-              </article>
+                    </h2>
+                    <small>{project.frontmatter.date}</small>
+                  </header>
+                  <section>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          project.frontmatter.description || project.excerpt,
+                      }}
+                      itemProp="description"
+                    />
+                  </section>
+                  {"Read more =>"}
+                </article>
+              </Link>
             </li>
           )
         })}
@@ -68,23 +71,27 @@ export default BlogIndex
 export const Head = () => <Seo title="All posts" />
 
 export const pageQuery = graphql`
-  {
+  query {
     site {
       siteMetadata {
         title
       }
     }
-    allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
+    allMdx(
+      filter: { fields: { isProjectOverview: { eq: true } } }
+      sort: { frontmatter: { date: DESC } }
+    ) {
       nodes {
-        excerpt
+        excerpt(pruneLength: 160)
         fields {
           slug
+          projectSlug
         }
         frontmatter {
-          project
-          date(formatString: "MMMM DD, YYYY")
           title
+          date(formatString: "MMMM DD, YYYY")
           description
+          tech
         }
       }
     }

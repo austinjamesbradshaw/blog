@@ -22,12 +22,31 @@ module.exports = {
     },
   },
   plugins: [
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        gatsbyRemarkPlugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 800,
+              linkImagesToOriginal: false,
+              withWebp: true,
+            },
+          },
+          `gatsby-remark-prismjs`,
+        ],
+      },
+    },
+
     `gatsby-plugin-image`,
+    `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/content/blog`,
-        name: `blog`,
+        name: `projects`,
+        path: `${__dirname}/content/projects`,
       },
     },
     {
@@ -38,59 +57,38 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-transformer-remark`,
-      options: {
-        plugins: [
-          {
-            resolve: `gatsby-remark-images`,
-            options: {
-              maxWidth: 630,
-            },
-          },
-          {
-            resolve: `gatsby-remark-responsive-iframe`,
-            options: {
-              wrapperStyle: `margin-bottom: 1.0725rem`,
-            },
-          },
-          `gatsby-remark-prismjs`,
-          "gatsby-plugin-postcss",
-        ],
-      },
-    },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
-    {
       resolve: `gatsby-plugin-feed`,
       options: {
         query: `
-          {
-            site {
-              siteMetadata {
-                project
-                title
-                description
-                siteUrl
-                site_url: siteUrl
-              }
+        {
+          site {
+            siteMetadata {
+              title
+              description
+              siteUrl
+              site_url: siteUrl
             }
           }
-        `,
+        }
+      `,
         feeds: [
           {
-            serialize: ({ query: { site, allMarkdownRemark } }) => {
-              return allMarkdownRemark.nodes.map(node => {
-                return Object.assign({}, node.frontmatter, {
-                  description: node.excerpt,
-                  date: node.frontmatter.date,
-                  url: site.siteMetadata.siteUrl + node.fields.slug,
-                  guid: site.siteMetadata.siteUrl + node.fields.slug,
-                  custom_elements: [{ "content:encoded": node.html }],
-                })
-              })
+            serialize: ({ query: { site, allMdx } }) => {
+              return allMdx.nodes.map(node => ({
+                title: node.frontmatter.title,
+                description: node.excerpt,
+                date: node.frontmatter.date,
+                url: site.siteMetadata.siteUrl + node.fields.slug,
+                guid: site.siteMetadata.siteUrl + node.fields.slug,
+                custom_elements: [{ "content:encoded": node.html }],
+              }))
             },
-            query: `{
-              allMarkdownRemark(sort: {frontmatter: {date: DESC}}) {
+            query: `
+            {
+              allMdx(
+                sort: { frontmatter: { date: DESC } }
+                filter: { fields: { isProjectOverview: { eq: true } } }
+              ) {
                 nodes {
                   excerpt
                   html
@@ -98,15 +96,15 @@ module.exports = {
                     slug
                   }
                   frontmatter {
-                    project
                     title
                     date
                   }
                 }
               }
-            }`,
+            }
+          `,
             output: "/rss.xml",
-            title: "Gatsby Starter Blog RSS Feed",
+            title: "My Developer Projects RSS Feed",
           },
         ],
       },
@@ -114,15 +112,12 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Starter Blog`,
-        short_name: `Gatsby`,
+        name: `My Developer Projects`,
+        short_name: `DevProjects`,
         start_url: `/`,
         background_color: `#ffffff`,
-        // This will impact how browsers show your PWA/website
-        // https://css-tricks.com/meta-theme-color-and-trickery/
-        // theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/images/gatsby-icon.png`, // change to your own icon
       },
     },
   ],
