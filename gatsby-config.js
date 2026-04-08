@@ -9,7 +9,7 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `Austin's Blog`,
+    title: `Austin Bradshaw`,
     author: {
       name: `Austin Bradshaw`,
       title: `Fullstack Engineer · The Woodlands, TX`,
@@ -117,7 +117,7 @@ module.exports = {
         start_url: `/`,
         background_color: `#ffffff`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // change to your own icon
+        icon: `src/images/favicon.png`, // change to your own icon
       },
     },
   ],
