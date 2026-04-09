@@ -15,22 +15,36 @@ const DevlogTemplate = ({ data, children, pageContext, location }) => {
     >
       <div className="flex flex-1 justify-between flex-col">
         <article>{children}</article>
-        <div className="w-full justify-between flex px-4">
+        <div className="w-full justify-between flex text-sm">
           <Link
             to={`/projects/${pageContext.projectSlug}/devlogs/${pageContext.prev?.slug}`}
             className={
-              !pageContext.prev ? "opacity-50 pointer-events-none" : undefined
+              !pageContext.prev
+                ? "group opacity-50 pointer-events-none flex flex-col"
+                : "group flex flex-col"
             }
           >
-            {"<= Previous"}
+            <span className="font-mono text-muted-foreground uppercase text-xs">
+              ← Previous
+            </span>
+            <span className="group-hover:text-primary font-medium transition-colors">
+              {pageContext.prev?.title}
+            </span>
           </Link>
           <Link
             to={`/projects/${pageContext.projectSlug}/devlogs/${pageContext.next?.slug}`}
             className={
-              !pageContext.next ? "opacity-50 pointer-events-none" : undefined
+              !pageContext.next
+                ? "group opacity-50 pointer-events-none flex flex-col"
+                : "group flex flex-col"
             }
           >
-            {"Next =>"}
+            <span className="font-mono text-muted-foreground uppercase text-xs">
+              Next →
+            </span>
+            <span className="group-hover:text-primary font-medium transition-colors">
+              {pageContext.next?.title}
+            </span>
           </Link>
         </div>
       </div>
