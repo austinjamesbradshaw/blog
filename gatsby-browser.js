@@ -28,10 +28,13 @@ import * as React from "react"
 import { MDXProvider } from "@mdx-js/react"
 
 const components = {
-  h2: props => <h2 className="mb-4 text-2xl font-bold" {...props} />,
+  h1: props => <h1 className="text-3xl font-bold" {...props} />,
+  h2: props => <h2 className="mt-8 mb-3 text-xl font-bold" {...props} />,
   p: props => (
     <p className="text-muted-foreground mb-4 leading-relaxed" {...props} />
   ),
+  hr: props => <hr className="my-4" {...props} />,
+  picture: props => <picture {...props} className="rounded-xl" />,
 }
 
 export const wrapRootElement = ({ element }) => (

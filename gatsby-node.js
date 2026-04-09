@@ -181,6 +181,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       date: Date @dateformat
       description: String
       tech: [String!]
+      thumbnail: File!
+      hero: File
     }
 
     type Frontmatter {
