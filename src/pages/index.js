@@ -18,7 +18,7 @@ const BlogIndex = ({ data, location }) => {
 
   return (
     <Layout location={location} title={siteTitle}>
-      <h2 className="text-muted-foreground text-sm tracking-wider mb-4 font-mono uppercase">
+      <h2 className="text-muted-foreground mb-4 font-mono text-sm tracking-wider uppercase">
         Things I've made
       </h2>
       <div className="flex flex-col gap-4">
@@ -30,19 +30,19 @@ const BlogIndex = ({ data, location }) => {
               key={project.fields.slug}
               to={project.fields.slug}
               itemProp="url"
-              className="group hover:border-secondary transition-colors p-4 rounded bg-card text-card-foreground border border-border"
+              className="group hover:border-secondary bg-card text-card-foreground border-border rounded border p-4 transition-colors"
             >
               <article
                 itemScope
                 itemType="http://schema.org/Article"
-                className="gap-4 sm:gap-6 flex flex-col-reverse sm:flex-row"
+                className="flex flex-col-reverse gap-4 sm:flex-row sm:gap-6"
               >
                 <div>
-                  <h3 className="text-lg mb-1.5 font-semibold group-hover:text-primary transition-colors">
+                  <h3 className="group-hover:text-primary mb-1.5 text-lg font-semibold transition-colors">
                     <span itemProp="headline">{title}</span>
                   </h3>
                   <p
-                    className="text-sm text-muted-foreground"
+                    className="text-muted-foreground text-sm"
                     dangerouslySetInnerHTML={{
                       __html:
                         project.frontmatter.description || project.excerpt,
@@ -51,13 +51,13 @@ const BlogIndex = ({ data, location }) => {
                   />
                   <div className="flex flex-wrap gap-2">
                     {project.frontmatter.tech.map(tech => (
-                      <div className="px-2 rounded-lg mt-2.5 py-0.5 bg-primary/10 text-primary font-mono w-fit text-xs">
+                      <div className="bg-primary/10 text-primary mt-2.5 w-fit rounded-lg px-2 py-0.5 font-mono text-xs">
                         {tech}
                       </div>
                     ))}
                   </div>
                 </div>
-                <div className="size-18 sm:size-26 bg-secondary/50 rounded-md shrink-0" />
+                <div className="bg-secondary/50 size-18 shrink-0 rounded-md sm:size-26" />
               </article>
             </Link>
           )

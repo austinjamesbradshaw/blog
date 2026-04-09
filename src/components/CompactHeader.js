@@ -23,10 +23,10 @@ const CompactHeader = ({ location, projectName, devlogTitle }) => {
   const isDevlog = !!devlogTitle
 
   return (
-    <header className="flex items-center gap-3 mb-8 pb-6 border-b border-border pt-10">
-      <Link to="/" className="flex items-center gap-3 group min-w-0">
+    <header className="border-border mb-8 flex items-center gap-3 border-b pt-10 pb-6">
+      <Link to="/" className="group flex min-w-0 items-center gap-3">
         <StaticImage
-          className="w-9 h-9 rounded-lg object-cover flex-shrink-0"
+          className="h-9 w-9 flex-shrink-0 rounded-lg object-cover"
           layout="fixed"
           formats={["auto", "webp", "avif"]}
           src="../images/profile-pic.png"
@@ -35,13 +35,13 @@ const CompactHeader = ({ location, projectName, devlogTitle }) => {
           quality={95}
           alt={author.name}
         />
-        <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors truncate">
+        <span className="text-muted-foreground group-hover:text-primary truncate text-sm font-medium transition-colors">
           {author.name}
         </span>
       </Link>
       <span className="text-border font-mono text-xs">/</span>
       {!isDevlog && (
-        <span className="text-sm font-semibold text-foreground truncate">
+        <span className="text-foreground truncate text-sm font-semibold">
           {projectName}
         </span>
       )}
@@ -49,14 +49,14 @@ const CompactHeader = ({ location, projectName, devlogTitle }) => {
         <>
           <Link
             to={projectPathname}
-            className="flex items-center gap-3 group min-w-0"
+            className="group flex min-w-0 items-center gap-3"
           >
-            <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors truncate">
+            <span className="text-muted-foreground group-hover:text-primary truncate text-sm font-medium transition-colors">
               {projectName}
             </span>
           </Link>
           <span className="text-border font-mono text-xs">/</span>
-          <span className="text-sm font-semibold text-foreground truncate">
+          <span className="text-foreground truncate text-sm font-semibold">
             {devlogTitle}
           </span>
         </>

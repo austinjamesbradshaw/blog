@@ -20,11 +20,11 @@ const Layout = ({ location, projectName, devlogTitle, children }) => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <div className="flex flex-col max-w-2xl w-full flex-1 mx-auto px-4 sm:px-6">
+    <div className="bg-background flex min-h-screen flex-col">
+      <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4 sm:px-6">
         <header className="global-header">{header}</header>
-        <main className="flex flex-col flex-1">{children}</main>
-        <footer className="mt-10 py-4 border-t border-border text-sm text-muted-foreground text-center">
+        <main className="flex flex-1 flex-col">{children}</main>
+        <footer className="border-border text-muted-foreground mt-10 border-t py-4 text-center text-sm">
           © {new Date().getFullYear()} Austin Bradshaw
         </footer>
       </div>

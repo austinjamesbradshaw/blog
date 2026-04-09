@@ -28,9 +28,9 @@ import * as React from "react"
 import { MDXProvider } from "@mdx-js/react"
 
 const components = {
-  h2: props => <h2 className="text-2xl font-bold mb-4" {...props} />,
+  h2: props => <h2 className="mb-4 text-2xl font-bold" {...props} />,
   p: props => (
-    <p className="text-muted-foreground leading-relaxed mb-4" {...props} />
+    <p className="text-muted-foreground mb-4 leading-relaxed" {...props} />
   ),
 }
 

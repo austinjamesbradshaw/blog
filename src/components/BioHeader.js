@@ -25,10 +25,10 @@ const BioHeader = () => {
   const social = data.site.siteMetadata?.social
 
   return (
-    <header className="flex items-start gap-6 mb-8 px-4 border-b border-border pt-10 p-8 sm:px-0">
-      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 max-w-2xl">
+    <header className="border-border mb-8 flex items-start gap-6 border-b p-8 px-4 pt-10 sm:px-0">
+      <div className="flex max-w-2xl flex-col items-center gap-6 sm:flex-row sm:items-start">
         <StaticImage
-          className="w-14 h-14 rounded-lg object-cover"
+          className="h-14 w-14 rounded-lg object-cover"
           layout="fixed"
           formats={["auto", "webp", "avif"]}
           src="../images/profile-pic.png"
@@ -37,9 +37,9 @@ const BioHeader = () => {
           quality={95}
           alt={author.name}
         />
-        <div className="flex-1 min-w-0 text-center sm:text-left">
-          <h1 className="text-2xl font-bold text-foreground">{author.name}</h1>
-          <p className="font-mono text-primary text-sm mt-1">{author.title}</p>
+        <div className="min-w-0 flex-1 text-center sm:text-left">
+          <h1 className="text-foreground text-2xl font-bold">{author.name}</h1>
+          <p className="text-primary mt-1 font-mono text-sm">{author.title}</p>
           <p className="text-muted-foreground mt-3 text-sm whitespace-pre-line">
             The best things you've ever used had something in common: somewhere
             along the way, someone was thinking about{" "}
@@ -49,7 +49,7 @@ const BioHeader = () => {
           <p className="text-muted-foreground mt-3 text-sm whitespace-pre-line">
             I'm currently at{" "}
             <a
-              className="underline hover:decoration-primary hover:text-primary decoration-[1.5px] decoration-muted-foreground/50 transition-all underline-offset-2"
+              className="hover:decoration-primary hover:text-primary decoration-muted-foreground/50 underline decoration-[1.5px] underline-offset-2 transition-all"
               href="https://lockheedmartin.com/"
               target="_blank"
             >
@@ -59,7 +59,7 @@ const BioHeader = () => {
             Previously, I served as Founding Engineer of an offshore cost
             intelligence SaaS startup,{" "}
             <a
-              className="underline hover:decoration-primary hover:text-primary decoration-[1.5px] decoration-muted-foreground/50 transition-all underline-offset-2"
+              className="hover:decoration-primary hover:text-primary decoration-muted-foreground/50 underline decoration-[1.5px] underline-offset-2 transition-all"
               href="https://www.usebase.io/"
               target="_blank"
             >
@@ -67,18 +67,18 @@ const BioHeader = () => {
             </a>
             .
           </p>
-          <span className="text-muted-foreground font-mono mt-4 flex gap-8 text-xs justify-center sm:justify-start">
+          <span className="text-muted-foreground mt-4 flex justify-center gap-8 font-mono text-xs sm:justify-start">
             <a
               href={social.github}
               target="_blank"
-              className="hover:text-primary decoration-2 decoration-muted-foreground/50 transition-colors"
+              className="hover:text-primary decoration-muted-foreground/50 decoration-2 transition-colors"
             >
               Github
             </a>
             <a
               href={social.linkedin}
               target="_blank"
-              className="hover:text-primary decoration-2 decoration-muted-foreground/50 transition-colors"
+              className="hover:text-primary decoration-muted-foreground/50 decoration-2 transition-colors"
             >
               Linkedin
             </a>

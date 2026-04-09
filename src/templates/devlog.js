@@ -13,18 +13,18 @@ const DevlogTemplate = ({ data, children, pageContext, location }) => {
       projectName={pageContext.projectTitle}
       devlogTitle={devlog.frontmatter.title}
     >
-      <div className="flex flex-1 justify-between flex-col">
+      <div className="flex flex-1 flex-col justify-between">
         <article>{children}</article>
-        <div className="w-full justify-between flex text-sm">
+        <div className="flex w-full justify-between text-sm">
           <Link
             to={`/projects/${pageContext.projectSlug}/devlogs/${pageContext.prev?.slug}`}
             className={
               !pageContext.prev
-                ? "group opacity-50 pointer-events-none flex flex-col"
+                ? "group pointer-events-none flex flex-col opacity-50"
                 : "group flex flex-col"
             }
           >
-            <span className="font-mono text-muted-foreground uppercase text-xs">
+            <span className="text-muted-foreground font-mono text-xs uppercase">
               ← Previous
             </span>
             <span className="group-hover:text-primary font-medium transition-colors">
@@ -35,11 +35,11 @@ const DevlogTemplate = ({ data, children, pageContext, location }) => {
             to={`/projects/${pageContext.projectSlug}/devlogs/${pageContext.next?.slug}`}
             className={
               !pageContext.next
-                ? "group opacity-50 pointer-events-none flex flex-col"
+                ? "group pointer-events-none flex flex-col opacity-50"
                 : "group flex flex-col"
             }
           >
-            <span className="font-mono text-muted-foreground uppercase text-xs">
+            <span className="text-muted-foreground font-mono text-xs uppercase">
               Next →
             </span>
             <span className="group-hover:text-primary font-medium transition-colors">

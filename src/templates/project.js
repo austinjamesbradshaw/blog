@@ -13,7 +13,7 @@ const ProjectTemplate = ({ data, children, location }) => {
   const [sortOrder, setSortOrder] = React.useState("Newest First")
   const handleSort = () =>
     setSortOrder(prev =>
-      prev === "Newest First" ? "Oldest First" : "Newest First"
+      prev === "Newest First" ? "Oldest First" : "Newest First",
     )
   const sortDevlogs = (a, b) =>
     sortOrder === "Newest First"
@@ -29,12 +29,12 @@ const ProjectTemplate = ({ data, children, location }) => {
 
         {hasDevlogs && (
           <section>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-muted-foreground text-sm tracking-wider font-mono uppercase">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-muted-foreground font-mono text-sm tracking-wider uppercase">
                 Dev Log
               </h3>
               <button
-                className="font-mono text-xs uppercase hover:text-primary text-muted-foreground cursor-pointer"
+                className="hover:text-primary text-muted-foreground cursor-pointer font-mono text-xs uppercase"
                 onClick={handleSort}
               >
                 <span className="text-lg leading-none">↕</span> {sortOrder}
@@ -44,23 +44,23 @@ const ProjectTemplate = ({ data, children, location }) => {
               {devlogs.sort(sortDevlogs).map(log => (
                 <Link
                   to={log.fields.slug}
-                  className="group not-first:-mt-px first:rounded-t last:rounded-b p-4 transition-colors bg-card text-card-foreground border border-border hover:z-10 focus:z-10 hover:border-secondary"
+                  className="group bg-card text-card-foreground border-border hover:border-secondary border p-4 transition-colors not-first:-mt-px first:rounded-t last:rounded-b hover:z-10 focus:z-10"
                 >
                   <div key={log.fields.slug}>
-                    <small className="text-xs mb-2 text-muted-foreground font-mono">
+                    <small className="text-muted-foreground mb-2 font-mono text-xs">
                       {log.frontmatter.date}
                     </small>
-                    <h3 className="text-lg mb-1.5 font-semibold group-hover:text-primary transition-colors">
+                    <h3 className="group-hover:text-primary mb-1.5 text-lg font-semibold transition-colors">
                       {log.frontmatter.title}
                     </h3>
                     {log.frontmatter.excerpt && (
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         {log.frontmatter.excerpt}
                       </p>
                     )}
                     <div className="flex flex-wrap gap-2">
                       {log.frontmatter.tech?.map(tech => (
-                        <div className="px-2 rounded-lg mt-2.5 py-0.5 bg-primary/10 text-primary font-mono w-fit text-xs">
+                        <div className="bg-primary/10 text-primary mt-2.5 w-fit rounded-lg px-2 py-0.5 font-mono text-xs">
                           {tech}
                         </div>
                       ))}

@@ -89,7 +89,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const allNodes = result.data.allMdx.nodes
 
   const projectOverviews = allNodes.filter(
-    node => node.fields.isProjectOverview
+    node => node.fields.isProjectOverview,
   )
 
   projectOverviews.forEach(overview => {
@@ -98,7 +98,7 @@ exports.createPages = async ({ graphql, actions }) => {
     createPage({
       path: `/projects/${projectSlug}`,
       component: `${require.resolve(
-        `./src/templates/project.js`
+        `./src/templates/project.js`,
       )}?__contentFilePath=${overview.internal.contentFilePath}`,
       context: {
         id: overview.id,
@@ -135,7 +135,7 @@ exports.createPages = async ({ graphql, actions }) => {
       createPage({
         path: `/projects/${projectSlug}/devlogs/${currentLog.fields.devlogSlug}`,
         component: `${require.resolve(
-          `./src/templates/devlog.js`
+          `./src/templates/devlog.js`,
         )}?__contentFilePath=${currentLog.internal.contentFilePath}`,
         context: {
           id: currentLog.id,
