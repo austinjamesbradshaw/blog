@@ -34,7 +34,7 @@ const ProjectTemplate = ({ data, children, location }) => {
                 Dev Log
               </h3>
               <button
-                className="font-mono text-sm hover:text-primary text-muted-foreground cursor-pointer"
+                className="font-mono text-xs uppercase hover:text-primary text-muted-foreground cursor-pointer"
                 onClick={handleSort}
               >
                 <span className="text-lg leading-none">↕</span> {sortOrder}
