@@ -30,7 +30,7 @@ const BlogIndex = ({ data, location }) => {
               key={project.fields.slug}
               to={project.fields.slug}
               itemProp="url"
-              className="group hover:border-secondary bg-card text-card-foreground border-border rounded border p-4 transition-colors"
+              className="group hover:border-secondary text-card-foreground border-border bg-card rounded-lg border p-4 transition-colors"
             >
               <article
                 itemScope
