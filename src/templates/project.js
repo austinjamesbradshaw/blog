@@ -29,7 +29,7 @@ const ProjectTemplate = ({ data, children, location }) => {
 
         {hasDevlogs && (
           <section>
-            <div className="mb-4 flex items-center justify-between">
+            <div className="mb-1 flex items-center justify-between">
               <h3 className="text-muted-foreground font-mono text-sm tracking-wider uppercase">
                 Dev Log
               </h3>
@@ -40,11 +40,11 @@ const ProjectTemplate = ({ data, children, location }) => {
                 <span className="text-lg leading-none">↕</span> {sortOrder}
               </button>
             </div>
-            <div className="flex flex-col">
+            <div className="divide-border flex flex-col divide-y">
               {devlogs.sort(sortDevlogs).map(log => (
                 <Link
                   to={log.fields.slug}
-                  className="group bg-card text-card-foreground border-border hover:border-secondary border p-4 transition-colors not-first:-mt-px first:rounded-t last:rounded-b hover:z-10 focus:z-10"
+                  className="group py-4 transition-colors not-first:-mt-px first:rounded-t last:rounded-b hover:z-10 focus:z-10"
                 >
                   <div key={log.fields.slug}>
                     <small className="text-muted-foreground mb-2 font-mono text-xs">
