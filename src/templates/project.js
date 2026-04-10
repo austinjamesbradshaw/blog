@@ -26,7 +26,7 @@ const ProjectTemplate = ({ data, children, location }) => {
   return (
     <Layout location={location} projectName={project.frontmatter.title}>
       <article>
-        {project.frontmatter.hero && (
+        {project.frontmatter.hero?.childImageSharp && (
           <GatsbyImage
             image={project.frontmatter.hero.childImageSharp.gatsbyImageData}
             className="shadow-inner; mb-6 aspect-16/7 overflow-hidden rounded-xl"

@@ -181,7 +181,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       date: Date @dateformat
       description: String
       tech: [String!]
-      thumbnail: File!
+      thumbnail: File
       hero: File
     }
 
