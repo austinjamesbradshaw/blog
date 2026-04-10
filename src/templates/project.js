@@ -40,14 +40,12 @@ const ProjectTemplate = ({ data, children, location }) => {
           {project.frontmatter.description}
         </p>
         <div className="flex flex-wrap gap-2">
-          {["React", "Remix", "E2E"].map(tech => (
+          {project.frontmatter.tech.map(tech => (
             <div className="bg-primary/10 text-primary w-fit rounded-lg px-2 py-0.5 font-mono text-xs">
               {tech}
             </div>
           ))}
         </div>
-
-        <hr className="mt-8" />
 
         <div className="mb-12">{children}</div>
 
