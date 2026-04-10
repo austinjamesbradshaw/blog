@@ -27,16 +27,21 @@ const BioHeader = () => {
   return (
     <header className="border-border mb-8 flex items-start gap-6 border-b p-8 px-2 pt-10 sm:px-0">
       <div className="flex max-w-2xl flex-col items-center gap-6 sm:flex-row sm:items-start">
-        <StaticImage
-          className="rounded-xl object-cover"
-          layout="fixed"
-          formats={["auto", "webp", "avif"]}
-          src="../images/profile-pic.png"
-          width={128}
-          height={128}
-          quality={95}
-          alt={author.name}
-        />
+        <div className="relative">
+          <StaticImage
+            className="rounded-xl object-cover"
+            layout="fixed"
+            formats={["auto", "webp", "avif"]}
+            src="../images/profile-pic.png"
+            width={128}
+            height={128}
+            quality={95}
+            alt={author.name}
+          />
+          <div className="animate-in ease-bubble fade-in zoom-in fill-mode-backwards after:border-border absolute top-12 right-22 z-10 origin-bottom-right rounded-xl border bg-white px-2 py-0.5 text-[13px] text-nowrap shadow-md delay-500 duration-500 after:absolute after:right-1 after:-bottom-0.75 after:-z-10 after:block after:h-1.5 after:w-3 after:rotate-10 after:skew-12 after:border-r after:border-b after:bg-white after:content-['']">
+            {process.env.GATSBY_WELCOME_MESSAGE || "Howdy!"}
+          </div>
+        </div>
         <div className="min-w-0 flex-1 text-center sm:text-left">
           <h1 className="text-foreground text-2xl font-bold">{author.name}</h1>
           <p className="text-primary mt-1 font-mono text-sm">{author.title}</p>
