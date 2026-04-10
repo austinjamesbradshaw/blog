@@ -3,6 +3,7 @@ import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
@@ -35,10 +36,19 @@ const BlogIndex = ({ data, location }) => {
               <article
                 itemScope
                 itemType="http://schema.org/Article"
-                className="flex flex-col-reverse gap-4 sm:flex-row sm:gap-6"
+                className="flex gap-4 sm:flex-row sm:gap-4"
               >
                 <div>
-                  <h3 className="group-hover:text-primary mb-1.5 text-lg font-semibold transition-colors">
+                  <h3 className="group-hover:text-primary mb-1.5 line-clamp-1 text-lg font-semibold transition-colors">
+                    {project.frontmatter.thumbnail ? (
+                      <GatsbyImage
+                        image={getImage(project.frontmatter.thumbnail)}
+                        alt={`${project.frontmatter.title} thumbnail`}
+                        className="mt-1 mr-2 size-5 shrink-0 rounded-md"
+                      />
+                    ) : (
+                      <div className="bg-secondary/50 gatsby-image-wrapper gatsby-image-wrapper-constrained mt-1 mr-2 size-5 shrink-0 rounded-md" />
+                    )}
                     <span itemProp="headline">{title}</span>
                   </h3>
                   <p
@@ -57,7 +67,6 @@ const BlogIndex = ({ data, location }) => {
                     ))}
                   </div>
                 </div>
-                <div className="bg-secondary/50 size-18 shrink-0 rounded-md sm:size-26" />
               </article>
             </Link>
           )
@@ -93,6 +102,16 @@ export const pageQuery = graphql`
           date(formatString: "MMMM DD, YYYY")
           description
           tech
+          thumbnail {
+            childImageSharp {
+              gatsbyImageData(
+                width: 104
+                height: 104
+                quality: 95
+                placeholder: BLURRED
+              )
+            }
+          }
         }
       }
     }
