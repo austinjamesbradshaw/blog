@@ -52,7 +52,7 @@ const BlogIndex = ({ data, location }) => {
                     <span itemProp="headline">{title}</span>
                   </h3>
                   <p
-                    className="text-muted-foreground text-sm"
+                    className="text-muted-foreground text-sm leading-relaxed"
                     dangerouslySetInnerHTML={{
                       __html:
                         project.frontmatter.description || project.excerpt,

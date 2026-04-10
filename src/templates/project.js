@@ -78,7 +78,7 @@ const ProjectTemplate = ({ data, children, location }) => {
                       {log.frontmatter.title}
                     </h3>
                     {log.frontmatter.excerpt && (
-                      <p className="text-muted-foreground text-sm">
+                      <p className="text-muted-foreground text-sm leading-relaxed">
                         {log.frontmatter.excerpt}
                       </p>
                     )}
