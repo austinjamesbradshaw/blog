@@ -4,6 +4,7 @@ import { Link, graphql } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import { ChevronRight } from "lucide-react"
 
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
@@ -39,18 +40,21 @@ const BlogIndex = ({ data, location }) => {
                 className="flex gap-4 sm:flex-row sm:gap-4"
               >
                 <div>
-                  <h3 className="group-hover:text-primary mb-1.5 line-clamp-1 text-lg font-semibold transition-colors">
-                    {project.frontmatter.thumbnail ? (
-                      <GatsbyImage
-                        image={getImage(project.frontmatter.thumbnail)}
-                        alt={`${project.frontmatter.title} thumbnail`}
-                        className="mt-1 mr-2 size-5 shrink-0 rounded-md"
-                      />
-                    ) : (
-                      <div className="bg-secondary/50 gatsby-image-wrapper gatsby-image-wrapper-constrained mt-1 mr-2 size-5 shrink-0 rounded-md" />
-                    )}
-                    <span itemProp="headline">{title}</span>
-                  </h3>
+                  <div className="mb-1.5 flex w-full items-center justify-between">
+                    <h3 className="group-hover:text-primary line-clamp-1 text-lg font-semibold transition-colors">
+                      {project.frontmatter.thumbnail ? (
+                        <GatsbyImage
+                          image={getImage(project.frontmatter.thumbnail)}
+                          alt={`${project.frontmatter.title} thumbnail`}
+                          className="mt-1 mr-2 size-5 shrink-0 rounded-md"
+                        />
+                      ) : (
+                        <div className="bg-secondary/50 gatsby-image-wrapper gatsby-image-wrapper-constrained mt-1 mr-2 size-5 shrink-0 rounded-md" />
+                      )}
+                      <span itemProp="headline">{title}</span>
+                    </h3>
+                    <ChevronRight className="text-muted-foreground group-hover:text-primary size-4 transition-all group-hover:translate-x-0.5" />
+                  </div>
                   <p
                     className="text-muted-foreground text-sm leading-relaxed"
                     dangerouslySetInnerHTML={{

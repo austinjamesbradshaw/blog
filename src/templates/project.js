@@ -6,6 +6,7 @@ import Seo from "../components/seo"
 import { GatsbyImage } from "gatsby-plugin-image"
 import ExternalLink from "../components/ExternalLink"
 import ProjectDetails from "../components/ProjectDetails"
+import { ChevronRight } from "lucide-react"
 
 const ProjectTemplate = ({ data, children, location }) => {
   const project = data.mdx
@@ -74,9 +75,12 @@ const ProjectTemplate = ({ data, children, location }) => {
                     <small className="text-muted-foreground mb-2 font-mono text-xs">
                       {log.frontmatter.date}
                     </small>
-                    <h3 className="group-hover:text-primary mb-1.5 font-semibold transition-colors">
-                      {log.frontmatter.title}
-                    </h3>
+                    <div className="mb-1.5 flex w-full items-center justify-between">
+                      <h3 className="group-hover:text-primary font-semibold transition-colors">
+                        {log.frontmatter.title}
+                      </h3>
+                      <ChevronRight className="text-muted-foreground group-hover:text-primary size-4 transition-all group-hover:translate-x-0.5" />
+                    </div>
                     {log.frontmatter.excerpt && (
                       <p className="text-muted-foreground text-sm leading-relaxed">
                         {log.frontmatter.excerpt}
