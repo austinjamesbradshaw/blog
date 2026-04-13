@@ -59,13 +59,15 @@ const BlogIndex = ({ data, location }) => {
                     }}
                     itemProp="description"
                   />
-                  <div className="flex flex-wrap gap-2">
-                    {project.frontmatter.tech.map(tech => (
-                      <div className="bg-primary/10 text-primary mt-2.5 w-fit rounded-lg px-2 py-0.5 font-mono text-xs">
-                        {tech}
-                      </div>
-                    ))}
-                  </div>
+                  {project.frontmatter.skills && (
+                    <div className="flex flex-wrap gap-2">
+                      {project.frontmatter.skills.map(skill => (
+                        <div className="bg-primary/10 text-primary mt-2.5 w-fit rounded-lg px-2 py-0.5 font-mono text-xs">
+                          {skill}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </article>
             </Link>
@@ -89,7 +91,7 @@ export const pageQuery = graphql`
     }
     allMdx(
       filter: { fields: { isProjectOverview: { eq: true } } }
-      sort: { frontmatter: { date: DESC } }
+      sort: { frontmatter: { dateLaunched: DESC } }
     ) {
       nodes {
         excerpt(pruneLength: 160)
@@ -99,9 +101,9 @@ export const pageQuery = graphql`
         }
         frontmatter {
           title
-          date(formatString: "MMMM DD, YYYY")
+          dateLaunched(formatString: "MMMM DD, YYYY")
           description
-          tech
+          skills
           thumbnail {
             childImageSharp {
               gatsbyImageData(

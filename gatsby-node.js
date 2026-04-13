@@ -181,8 +181,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       date: Date @dateformat
       description: String
       tech: [String!]
-      thumbnail: File
-      hero: File
+      thumbnail: File @fileByRelativePath
+      hero: File @fileByRelativePath
     }
 
     type Frontmatter {

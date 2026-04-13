@@ -1,0 +1,69 @@
+import * as React from "react"
+import { Zap, Trophy, Rocket } from "lucide-react"
+
+const ProjectDetails = ({ skills, outcomes, dateLaunched }) => {
+  return (
+    <div className="mb-6">
+      <div className="divide-border divide-y">
+        <div className="grid grid-cols-[160px_1fr] gap-4 py-2.5">
+          <span className="text-muted-foreground flex items-start gap-1.5 pt-0.5 font-mono text-xs tracking-wider uppercase">
+            <Rocket className="size-3.5" /> Launched
+          </span>
+          {dateLaunched && (
+            <div className="text-muted-foreground flex items-center gap-2 text-sm">
+              <div className="size-2 rounded-full bg-emerald-500" />
+              {new Date(dateLaunched).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </div>
+          )}
+          {!dateLaunched && (
+            <div className="text-muted-foreground flex items-center gap-2 text-sm">
+              <div className="size-2 rounded-full bg-amber-500" />
+              In Development
+            </div>
+          )}
+        </div>
+        <div className="grid grid-cols-[160px_1fr] gap-4 py-2.5">
+          <span className="text-muted-foreground flex items-start gap-1.5 pt-0.5 font-mono text-xs tracking-wider uppercase">
+            <Zap className="size-3.5" /> Skills
+          </span>
+          <div className="text-primary text-sm">
+            <div className="flex flex-wrap gap-2">
+              {skills.map(skill => (
+                <div
+                  key={skill}
+                  className="bg-primary/10 w-fit rounded-lg px-2 py-0.5 font-mono text-xs"
+                >
+                  {skill}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        {outcomes && (
+          <div className="grid grid-cols-[160px_1fr] gap-4 py-2.5">
+            <span className="text-muted-foreground flex items-start gap-1.5 pt-0.5 font-mono text-xs tracking-wider uppercase">
+              <Trophy className="size-3.5" /> Key Outcomes
+            </span>
+            <div className="text-muted-foreground text-sm leading-relaxed">
+              <ul className="list-inside list-disc space-y-0.5">
+                {outcomes.map(outcome => (
+                  <li
+                    key={outcome}
+                    className="text-pretty"
+                    dangerouslySetInnerHTML={{ __html: outcome }}
+                  ></li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default ProjectDetails

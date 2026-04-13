@@ -5,6 +5,7 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { GatsbyImage } from "gatsby-plugin-image"
 import ExternalLink from "../components/ExternalLink"
+import ProjectDetails from "../components/ProjectDetails"
 
 const ProjectTemplate = ({ data, children, location }) => {
   const project = data.mdx
@@ -41,6 +42,12 @@ const ProjectTemplate = ({ data, children, location }) => {
             <ExternalLink href={project.frontmatter.figma} label="Figma" />
           </span>
         </div>
+
+        <ProjectDetails
+          dateLaunched={project.frontmatter.dateLaunched}
+          skills={project.frontmatter.skills}
+          outcomes={project.frontmatter.outcomes}
+        />
 
         <div className="mb-12">{children}</div>
 
@@ -112,11 +119,12 @@ export const pageQuery = graphql`
     mdx(id: { eq: $id }) {
       frontmatter {
         title
-        date(formatString: "MMMM DD, YYYY")
         description
         demo
         figma
-        tech
+        skills
+        dateLaunched
+        outcomes
         hero {
           childImageSharp {
             gatsbyImageData(quality: 95, placeholder: BLURRED)
@@ -140,7 +148,6 @@ export const pageQuery = graphql`
           title
           date(formatString: "MMMM DD, YYYY")
           excerpt
-          tech
         }
       }
     }
