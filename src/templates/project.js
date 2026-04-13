@@ -127,7 +127,7 @@ export const pageQuery = graphql`
         demo
         figma
         skills
-        dateLaunched
+        dateLaunched(formatString: "MMMM DD, YYYY")
         outcomes
         hero {
           childImageSharp {

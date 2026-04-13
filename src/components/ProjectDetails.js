@@ -12,11 +12,7 @@ const ProjectDetails = ({ skills, outcomes, dateLaunched }) => {
           {dateLaunched && (
             <div className="text-muted-foreground flex items-center gap-2 text-sm">
               <div className="size-2 rounded-full bg-emerald-500" />
-              {new Date(dateLaunched).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {dateLaunched}
             </div>
           )}
           {!dateLaunched && (
