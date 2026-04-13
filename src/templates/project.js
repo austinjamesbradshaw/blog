@@ -4,6 +4,7 @@ import { graphql, Link } from "gatsby"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { GatsbyImage } from "gatsby-plugin-image"
+import ExternalLink from "../components/ExternalLink"
 
 const ProjectTemplate = ({ data, children, location }) => {
   const project = data.mdx
@@ -32,19 +33,13 @@ const ProjectTemplate = ({ data, children, location }) => {
             className="shadow-inner; mb-6 aspect-16/7 overflow-hidden rounded-xl"
           />
         )}
-        <small className="text-muted-foreground mb-1 font-mono text-sm">
-          Launched {project.frontmatter.date}
-        </small>
-        <h1 className="mb-2 text-3xl font-bold">{project.frontmatter.title}</h1>
-        <p className="text-muted-foreground mb-3 leading-relaxed">
-          {project.frontmatter.description}
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {project.frontmatter.tech.map(tech => (
-            <div className="bg-primary/10 text-primary w-fit rounded-lg px-2 py-0.5 font-mono text-xs">
-              {tech}
-            </div>
-          ))}
+
+        <div className="mb-3.5 flex flex-col-reverse items-start justify-between gap-2 sm:flex-row sm:items-center sm:gap-8">
+          <h1 className="text-3xl font-bold">{project.frontmatter.title}</h1>
+          <span className="text-muted-foreground mb-2 flex justify-center gap-8 font-mono text-sm text-nowrap sm:justify-start">
+            <ExternalLink href={project.frontmatter.demo} label="Live App" />
+            <ExternalLink href={project.frontmatter.figma} label="Figma" />
+          </span>
         </div>
 
         <div className="mb-12">{children}</div>
@@ -119,6 +114,8 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        demo
+        figma
         tech
         hero {
           childImageSharp {

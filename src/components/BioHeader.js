@@ -1,6 +1,7 @@
 import * as React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
+import ExternalLink from "./ExternalLink"
 
 const BioHeader = () => {
   const data = useStaticQuery(graphql`
@@ -38,7 +39,7 @@ const BioHeader = () => {
             quality={95}
             alt={author.name}
           />
-          <div className="animate-in ease-bubble fade-in zoom-in fill-mode-backwards after:border-border absolute top-12 right-22 z-10 origin-bottom-right rounded-xl border bg-white px-2 py-0.5 text-[13px] text-nowrap shadow-md delay-500 duration-500 after:absolute after:right-1 after:-bottom-0.75 after:-z-10 after:block after:h-1.5 after:w-3 after:rotate-10 after:skew-12 after:border-r after:border-b after:bg-white after:content-['']">
+          <div className="animate-in ease-bubble fade-in zoom-in fill-mode-backwards after:border-border absolute top-12 right-22 z-10 origin-bottom-right rounded-xl border bg-white px-2 py-0.5 text-[13px] text-nowrap shadow-md delay-1000 duration-500 after:absolute after:right-1 after:-bottom-0.75 after:-z-10 after:block after:h-1.5 after:w-3 after:rotate-10 after:skew-12 after:border-r after:border-b after:bg-white after:content-['']">
             {process.env.GATSBY_WELCOME_MESSAGE || "Howdy!"}
           </div>
         </div>
@@ -72,26 +73,8 @@ const BioHeader = () => {
             , an offshore cost intelligence SaaS startup.
           </p>
           <span className="text-muted-foreground mt-4 flex justify-center gap-8 font-mono text-sm sm:justify-start">
-            <a
-              href={social.github}
-              target="_blank"
-              className="group hover:text-primary decoration-muted-foreground/50 flex gap-1 decoration-2 transition-colors"
-            >
-              <span className="mt-px">GitHub</span>
-              <span className="transition-transform group-hover:translate-x-px group-hover:-translate-y-px">
-                ↗
-              </span>
-            </a>
-            <a
-              href={social.linkedin}
-              target="_blank"
-              className="group hover:text-primary decoration-muted-foreground/50 flex gap-1 decoration-2 transition-colors"
-            >
-              <span className="mt-px">LinkedIn</span>
-              <span className="transition-transform group-hover:translate-x-px group-hover:-translate-y-px">
-                ↗
-              </span>
-            </a>
+            <ExternalLink href={social.github} label="GitHub" />
+            <ExternalLink href={social.linkedin} label="LinkedIn" />
           </span>
         </div>
       </div>
