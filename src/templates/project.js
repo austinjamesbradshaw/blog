@@ -39,8 +39,12 @@ const ProjectTemplate = ({ data, children, location }) => {
         <div className="mb-3.5 flex flex-col-reverse items-start justify-between gap-2 sm:flex-row sm:items-center sm:gap-8">
           <h1 className="text-3xl font-bold">{project.frontmatter.title}</h1>
           <span className="text-muted-foreground mb-2 flex justify-center gap-8 font-mono text-sm text-nowrap sm:justify-start">
-            <ExternalLink href={project.frontmatter.demo} label="Live App" />
-            <ExternalLink href={project.frontmatter.figma} label="Figma" />
+            {project.frontmatter.demo && (
+              <ExternalLink href={project.frontmatter.demo} label="Live App" />
+            )}
+            {project.frontmatter.figma && (
+              <ExternalLink href={project.frontmatter.figma} label="Figma" />
+            )}
           </span>
         </div>
 

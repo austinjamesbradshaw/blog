@@ -184,6 +184,8 @@ exports.createSchemaCustomization = ({ actions }) => {
       outcomes: [String]
       thumbnail: File @fileByRelativePath
       hero: File @fileByRelativePath
+      figma: String
+      demo: String
     }
 
     type Frontmatter {
