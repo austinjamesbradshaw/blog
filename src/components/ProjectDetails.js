@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Zap, Trophy, Rocket } from "lucide-react"
+import { Zap, Trophy, Activity, Rocket, Code2 } from "lucide-react"
 
 const ProjectDetails = ({ skills, outcomes, dateLaunched }) => {
   return (
@@ -7,17 +7,16 @@ const ProjectDetails = ({ skills, outcomes, dateLaunched }) => {
       <div className="divide-border divide-y">
         <div className="grid grid-cols-[160px_1fr] gap-4 py-2.5">
           <span className="text-muted-foreground flex items-start gap-1.5 pt-0.5 font-mono text-xs tracking-wider uppercase">
-            <Rocket className="size-3.5" /> Launched
+            <Activity className="size-3.5" /> Status
           </span>
           {dateLaunched && (
-            <div className="text-muted-foreground flex items-center gap-2 text-sm">
-              <div className="size-2 rounded-full bg-emerald-500" />
-              {dateLaunched}
+            <div className="flex items-center gap-2 text-sm">
+              <Rocket className="size-3.5" /> {dateLaunched}
             </div>
           )}
           {!dateLaunched && (
-            <div className="text-muted-foreground flex items-center gap-2 text-sm">
-              <div className="size-2 rounded-full bg-amber-500" />
+            <div className="flex items-center gap-2 text-sm">
+              <Code2 className="size-3.5" />
               In Development
             </div>
           )}
@@ -44,8 +43,8 @@ const ProjectDetails = ({ skills, outcomes, dateLaunched }) => {
             <span className="text-muted-foreground flex items-start gap-1.5 pt-0.5 font-mono text-xs tracking-wider uppercase">
               <Trophy className="size-3.5" /> Key Outcomes
             </span>
-            <div className="text-muted-foreground text-sm leading-relaxed">
-              <ul className="list-inside list-disc space-y-0.5">
+            <div className="text-sm leading-relaxed">
+              <ul className="list-disc space-y-1 pl-3.5">
                 {outcomes.map(outcome => (
                   <li
                     key={outcome}
