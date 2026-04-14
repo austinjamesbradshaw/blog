@@ -14,7 +14,7 @@ const ProjectTemplate = ({ data, children, location }) => {
 
   const hasDevlogs = devlogs.length > 0
 
-  const [sortOrder, setSortOrder] = React.useState("Newest First")
+  const [sortOrder, setSortOrder] = React.useState("Oldest First")
   const handleSort = () =>
     setSortOrder(prev =>
       prev === "Newest First" ? "Oldest First" : "Newest First",
