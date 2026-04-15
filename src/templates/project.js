@@ -37,8 +37,8 @@ const ProjectTemplate = ({ data, children, location }) => {
         )}
 
         <div className="mb-3.5 flex flex-col-reverse items-start justify-between gap-2 sm:flex-row sm:items-center sm:gap-8">
-          <h1 className="text-3xl font-bold">{project.frontmatter.title}</h1>
-          <span className="text-muted-foreground mb-2 flex justify-center gap-8 font-mono text-sm text-nowrap sm:justify-start">
+          <h1 className="text-2xl font-bold">{project.frontmatter.title}</h1>
+          <span className="text-muted-foreground mb-2 flex justify-center gap-8 font-mono text-sm text-nowrap sm:mb-0 sm:justify-start">
             {project.frontmatter.demo && (
               <ExternalLink href={project.frontmatter.demo} label="Live App" />
             )}
@@ -85,11 +85,11 @@ const ProjectTemplate = ({ data, children, location }) => {
                       </h3>
                       <ChevronRight className="text-muted-foreground group-hover:text-primary size-4 transition-all group-hover:translate-x-0.5" />
                     </div>
-                    {log.frontmatter.excerpt && (
-                      <p className="text-muted-foreground text-sm leading-relaxed">
-                        {log.frontmatter.excerpt}
-                      </p>
-                    )}
+
+                    <p className="text-muted-foreground line-clamp-1 text-sm leading-relaxed">
+                      {log.excerpt}
+                    </p>
+
                     <div className="mt-2 flex flex-wrap gap-2">
                       {log.frontmatter.tech?.map(tech => (
                         <div className="bg-primary/10 text-primary w-fit rounded-lg px-2 py-0.5 font-mono text-xs">
@@ -149,13 +149,13 @@ export const pageQuery = graphql`
       sort: { frontmatter: { date: DESC } }
     ) {
       nodes {
+        excerpt(pruneLength: 100)
         fields {
           slug
         }
         frontmatter {
           title
           date(formatString: "MMMM DD, YYYY")
-          excerpt
         }
       }
     }
