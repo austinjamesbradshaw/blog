@@ -45,17 +45,17 @@ const BioHeader = () => {
         </div>
         <div className="min-w-0 flex-1 text-center sm:text-left">
           <h1 className="text-foreground text-2xl font-bold">{author.name}</h1>
-          <p className="text-primary mt-1 font-mono text-sm">{author.title}</p>
-          <p className="text-muted-foreground mt-3 leading-relaxed whitespace-pre-line">
+          <p className="text-primary font-mono text-sm">{author.title}</p>
+          <p className="mt-3 leading-relaxed whitespace-pre-line">
             The best things you've ever used had something in common: somewhere
             along the way, someone was thinking about{" "}
             <i className="font-bold">you</i>. I carry that same mindset into
             every product I engineer.
           </p>
-          <p className="text-muted-foreground mt-3 leading-relaxed whitespace-pre-line">
+          <p className="mt-3 leading-relaxed whitespace-pre-line">
             I'm currently at{" "}
             <a
-              className="hover:decoration-primary hover:text-primary decoration-muted-foreground/50 underline decoration-[1.5px] underline-offset-2 transition-all"
+              className="text-primary no-underline decoration-[1.5px] underline-offset-2 transition-all hover:underline active:opacity-80"
               href="https://lockheedmartin.com/"
               target="_blank"
             >
@@ -64,7 +64,7 @@ const BioHeader = () => {
             building enterprise apps that empower employee experiences.
             Previously, I served as Founding Engineer of{" "}
             <a
-              className="hover:decoration-primary hover:text-primary decoration-muted-foreground/50 underline decoration-[1.5px] underline-offset-2 transition-all"
+              className="text-primary no-underline decoration-[1.5px] underline-offset-2 transition-all hover:underline active:opacity-80"
               href="https://www.usebase.io/"
               target="_blank"
             >
@@ -73,8 +73,8 @@ const BioHeader = () => {
             , an offshore cost intelligence SaaS startup.
           </p>
           <span className="text-muted-foreground mt-4 flex justify-center gap-8 font-mono text-sm sm:justify-start">
-            <ExternalLink href={social.github} label="GitHub" />
             <ExternalLink href={social.linkedin} label="LinkedIn" />
+            <ExternalLink href={social.github} label="GitHub" />
           </span>
         </div>
       </div>
