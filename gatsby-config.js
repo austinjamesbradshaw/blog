@@ -16,7 +16,7 @@ module.exports = {
     title: `Austin Bradshaw`,
     author: {
       name: `Austin Bradshaw`,
-      title: `Fullstack Engineer · The Woodlands, TX`,
+      title: `Fullstack Engineer · Houston, TX`,
       summary: `The best things you've ever used had something in common: somewhere along the way, someone was thinking about you. I hold this standard close.\n\nCurrently at Lockheed Martin building enterprise applications that empower employee experiences. Previously served as Founding Engineer of global SaaS, "Base".`,
     },
     description: `A blog to document my personal projects.`,
