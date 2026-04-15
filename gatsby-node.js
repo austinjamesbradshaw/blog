@@ -178,6 +178,7 @@ exports.createSchemaCustomization = ({ actions }) => {
 
     type MdxFrontmatter {
       title: String!
+      date: Date @dateformat
       dateLaunched: Date @dateformat
       description: String
       skills: [String!]
