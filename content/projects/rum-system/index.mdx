@@ -1,0 +1,238 @@
+---
+title: "Custom Real User Monitoring (RUM) System"
+description: "A custom engineered TypeScript + AWS CloudWatch RUM system to increase my team's frontend app observability."
+dateLaunched: "2025-04-16"
+outcomes:
+  [
+    "<strong>Built a custom TypeScript RUM provider</strong> on top of AWS CloudWatch Logs to satisfy security requirements.",
+    "<strong>Reduced mean time to resolution by >50%</strong>, no longer solely relying on users to report issues.",
+    "<strong>Implemented auto-event capture and session tracking</strong> so it can be installed on any React app in minutes.",
+    "<strong>Batched events before delivery</strong>, reducing client-side network overhead and staying within CloudWatch Logs' rate limit.",
+  ]
+skills: ["TypeScript", "AWS Cloudwatch"]
+thumbnail: "./thumbnail.png"
+hero: "./hero.png"
+---
+
+## No observability, no good
+
+I work at [Lockheed Martin](https://lockheedmartin.com) on a small team that builds and mantains enterprise apps across the company. The vast majority of our users are internal employees and thus are easy to reach via Teams or an email (and vice versa) - something maybe our team had relied on too heavily for too long.
+
+After the launch of a particular app encountered some unexpected problems **that our users had to catch for us**, I rallied the team to look at our current level of observability.
+
+We concluded that:
+
+- **Our backend team already had fairly mature observability.** We knew the state of their applications and when things went wrong.
+- **Our frontend team did not.** Those apps basically ran off a "no news is good news" policy.
+
+Obviously, we had some work to do to improve that!
+
+## Defining our frontend observability requirements
+
+This initiative, while important, was considered a side-project for us, so optimizing value vs time-spent was important. There's so much we _could_ track, but what do we _need_ to track to get the best bang-for-buck?
+
+After some brainstorming, here's what we narrowed our requirements down to:
+
+1. **We need to know about frontend errors without relying on users.** This was the problem that started the whole conversation in the first place, so it's on the list.
+2. **We need to be able _to diagnose the cause of errors_ without relying on users.** Just knowing an error occured isn't enough. We need enough information to replicate and diagnose the issue.
+3. **We need to see web vitals.** Sometimes an app might not be throwing exceptions, but that doesn't necessarily mean it's performing as expected. Monitoring web vitals helps us cover this scenario.
+
+## Picking the tool stack
+
+Now came time to see what tools we could use to meet our requirements. In a secure environment like at Lockheed Martin, a high value is placed on existing technology, but we still looked at some new tools.
+
+Here were some options we looked at:
+
+- **PostHog** - I was familiar with PostHog from my hobby projects (thanks for the free-tier) and was a fan. We couldn't use their cloud service, but I was curious if self-hosting would be a solution. While it's features were arguably the best, we ultimately decided we couldn't afford the implementation and maintenance cost of self-hosting. We needed something managed.
+- **Grafana LGTM Stack** - A few other teams in the enterprise were making use of Grafana, so we figured that could be a good option, too. We found it could definitely do what we needed, but we again ran into concerns about implementation and maintenance costs self-hosting it within our small team.
+- **AWS CloudWatch** - Our team is deep in the AWS ecosystem. It's where our infra lives... our backend team was using CloudWatch for thier observability... it was a natural consideration for us. Our access to the ecosystem allowed us to easily put together a proof of concept using CloudWatch Logs and a dashboard.
+
+Ultimately, we chose to use CloudWatch for log ingestion, storage, visualization, and alerts.
+
+The one thing CloudWatch didn't provide us was a seamless SDK for sending logs from our applications. CloudWatch does have [a RUM SDK](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM.html), but unforunately it's not available in our AWS GovCloud region, so we set out to build something ourselves.
+
+## TypeScript provider implementation
+
+_Since I built this proprietarily for a company, I can't share exact details, but here's what I can share._
+
+We had a few additional goals for our TypeScript provider:
+
+**1) The log structure should be extensible.** We're treating this as a minimum-viable solution, but we may want to track additional info in the future.
+
+We ended up mimicking Grafana's `snake_case`, JSON log structure. A typical log might look something like this.
+
+```ts
+type Log = {
+  app_name: string
+  app_env: string
+  app_commitHash: string
+  timestamp: string
+  page_url: string
+  user_id: string
+  session_id: string
+  // + Browser meta...
+  kind: "error" | "measurement" | "event" | "console"
+  // + Further "kind-specific" data, e.g. event type, event details, etc.
+}
+```
+
+It's human readable, easily extensible, and easy to filter once in CloudWatch.
+
+**2) It had to comply with CloudWatch Log's rate limit.** We'd send our logs through `PutLogEvents` commands directly to the CloudWatch API, so we're limited to 5,000 transactions per second.
+
+Our apps individually don't have huge user bases, but there's a lot of apps, so to maximize our runway before reaching that limit, I implemented some logic to send events in batches every few seconds, rather than one request per event.
+
+I also added some logic to make sure we send events if a user closes the tab/window before the next interval.
+
+```js
+const logBuffer = useRef([])
+
+const client = new CloudWatchLogsClient(/* ... */)
+
+const flushLogBuffer = async () => {
+  if (logBuffer.current.length === 0) return
+
+  const logsToSend = [...logBuffer.current]
+  logBuffer.current = []
+
+  try {
+    const command = new PutLogEventsCommand({
+      logGroupName: "...",
+      logStreamName: "...",
+      logEvents: logsToSend,
+    })
+
+    await client.send(command)
+  } catch (error) {
+    console.error("Failed to send logs to CloudWatch:", error)
+
+    // Re-add logs to retry
+    logBuffer.current.push(...logsToSend)
+  }
+}
+
+useEffect(() => {
+  // Flush logs every 5 seconds
+  const interval = setInterval(() => flushLogBuffer(), 5000)
+
+  // Flush logs when leaving the tab/window
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === "hidden") {
+      flushLogBuffer()
+    }
+  }
+
+  // Flush logs before closing the tab/window
+  const handleBeforeUnload = () => {
+    flushLogBuffer()
+  }
+
+  document.addEventListener("visibilitychange", handleVisibilityChange)
+  window.addEventListener("beforeunload", handleBeforeUnload)
+
+  // Cleanup on unmount
+  return () => {
+    clearInterval(interval)
+    document.removeEventListener("visibilitychange", handleVisibilityChange)
+    window.removeEventListener("beforeunload", handleBeforeUnload)
+    flushLogBuffer()
+  }
+})
+```
+
+**3) It should install in minutes.** We manage dozens of applications, so minimizing setup time on each is important. It should be as simple as "install the provider, and wrap your app."
+
+We accomplished this with lots of global listeners to automatically capture information across the whole app.
+
+For example, unhandled JavaScript errors...
+
+```js
+useEffect(() => {
+  const handleError = event =>
+    pushLogToBuffer({
+      kind: "error",
+      type: "javascript",
+      message: event.message,
+      // Etc...
+    })
+  window.addEventListener("error", handleError)
+}, [pushLogToBuffer])
+```
+
+Global click, change, and submit listeners for auto event capture...
+
+```js
+useEffect(() => {
+  const handleClick = event => {
+    const target = event.target
+    if (
+      ["INPUT", "SELECT", "TEXTAREA", "BUTTON", "A"].includes(target.tagName)
+    ) {
+      pushLogToBuffer({
+        kind: "event",
+        type: "click",
+        target_id: target.id,
+        target_text: target.textContent,
+        // Etc...
+      })
+    }
+  }
+  window.addEventListener("click", handleClick)
+  // Similar for change + submit
+}, [pushLogToBuffer])
+```
+
+And web vitals...
+
+```js
+import { onLCP, onCLS, onINP } from "web-vitals"
+
+const location = useLocation()
+
+useEffect(() => {
+  const pushVital = vital => {
+    pushLogToBuffer({
+      kind: "measurement",
+      type: "web-vitals",
+      [vital.name.toLoweCase()]: vital.value,
+      // Etc...
+    })
+  }
+
+  onLCP(pushVital)
+  onCLS(pushVital)
+  onINP(pushVital)
+}, [location, pushLogToBuffer])
+```
+
+These listeners and more were all packaged in a simple, single provider.
+
+```jsx
+<LoggingProvider>
+  <App />
+</LoggingProvider>
+```
+
+With that, we were getting logs in CloudWatch!
+
+## CloudWatch dashboard implementation
+
+Finally, with logs being ingested into CloudWatch, we needed to use them to create the insights we originally set out to.
+
+**To noify us of anomolies,** we set up some "metric filters" to aggregate logs into metrics that could trigger CloudWatch Alarms. We created alarms for each application and individually subscribed to alarms for the apps we each maintain.
+
+**To diagnose the cause of those anomolies,** we created a "debugging dashboard" that allows us to quickly see details like...
+
+- All recent errors
+- Recent sessions with errors
+- Event history by session
+
+These key widgets allow us to zoom in on anomolies and trace the user's steps within the relevant session, all without needing to communicate directly with them.
+
+## Wrapping up
+
+Building this system was a great intro into how big analytics tools do what they do. I'm interested to see how our solution holds up as our portfolio grows.
+
+No doubt things quickly get complicated as the scale of events increases, or as you try to further visualize your events with something like a "session replay" feature.
+
+For now though, our requirements are met!
