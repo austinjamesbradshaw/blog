@@ -43,13 +43,13 @@ const components = {
   p: props => <p className="mb-4 leading-relaxed text-pretty" {...props} />,
   ol: props => (
     <ol
-      className="mb-4 list-decimal pl-12 leading-relaxed [&>li]:mb-2"
+      className="mb-4 list-decimal pl-8 leading-relaxed [&>li]:mb-2"
       {...props}
     />
   ),
   ul: props => (
     <ul
-      className="mb-4 list-disc pl-12 leading-relaxed [&>li]:mb-2"
+      className="mb-4 list-disc pl-8 leading-relaxed [&>li]:mb-2"
       {...props}
     />
   ),
