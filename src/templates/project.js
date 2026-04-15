@@ -45,6 +45,9 @@ const ProjectTemplate = ({ data, children, location }) => {
             {project.frontmatter.figma && (
               <ExternalLink href={project.frontmatter.figma} label="Figma" />
             )}
+            {project.frontmatter.docs && (
+              <ExternalLink href={project.frontmatter.docs} label="Docs" />
+            )}
           </span>
         </div>
 
@@ -130,6 +133,7 @@ export const pageQuery = graphql`
         description
         demo
         figma
+        docs
         skills
         dateLaunched(formatString: "MMMM DD, YYYY")
         outcomes
