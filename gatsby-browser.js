@@ -27,14 +27,35 @@ import "prism-themes/themes/prism-cb.css"
 import * as React from "react"
 import { MDXProvider } from "@mdx-js/react"
 
+export function MdxLink(props) {
+  return (
+    <a
+      className="text-primary no-underline decoration-[1.5px] underline-offset-2 transition-all hover:underline active:opacity-80"
+      {...props}
+    />
+  )
+}
+
 const components = {
   h1: props => <h1 className="text-3xl font-bold" {...props} />,
   h2: props => <h2 className="mt-8 mb-3 text-xl font-bold" {...props} />,
-  p: props => (
-    <p className="text-muted-foreground mb-4 leading-relaxed" {...props} />
+  h3: props => <h3 className="mt-8 mb-1 text-lg font-semibold" {...props} />,
+  p: props => <p className="mb-4 leading-relaxed text-pretty" {...props} />,
+  ol: props => (
+    <ol
+      className="mb-4 list-decimal pl-12 leading-relaxed [&>li]:mb-2"
+      {...props}
+    />
   ),
+  ul: props => (
+    <ul
+      className="mb-4 list-disc pl-12 leading-relaxed [&>li]:mb-2"
+      {...props}
+    />
+  ),
+  a: props => <MdxLink {...props} />,
   hr: props => <hr className="my-4" {...props} />,
-  picture: props => <picture {...props} className="rounded-xl" />,
+  img: props => <img {...props} className="mb-8 rounded-xl" />,
 }
 
 export const wrapRootElement = ({ element }) => (
