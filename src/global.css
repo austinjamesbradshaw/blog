@@ -210,4 +210,10 @@
   body {
     @apply bg-background text-foreground;
   }
+  .gatsby-resp-image-wrapper {
+    @apply mb-4;
+  }
+  .gatsby-resp-image-image {
+    @apply border-border/50 rounded-xl border;
+  }
 }
