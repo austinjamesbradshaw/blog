@@ -14,7 +14,12 @@ const DevlogTemplate = ({ data, children, pageContext, location }) => {
       devlogTitle={devlog.frontmatter.title}
     >
       <div className="flex flex-1 flex-col justify-between">
-        <article>{children}</article>
+        <article>
+          <h1 className="mb-4 text-2xl font-bold">
+            {devlog.frontmatter.title}
+          </h1>
+          <div className="mb-12">{children}</div>
+        </article>
         <div className="flex w-full justify-between text-sm">
           <Link
             to={`/projects/${pageContext.projectSlug}/devlogs/${pageContext.prev?.slug}`}
@@ -35,8 +40,8 @@ const DevlogTemplate = ({ data, children, pageContext, location }) => {
             to={`/projects/${pageContext.projectSlug}/devlogs/${pageContext.next?.slug}`}
             className={
               !pageContext.next
-                ? "group pointer-events-none flex flex-col opacity-50"
-                : "group flex flex-col"
+                ? "group pointer-events-none flex flex-col items-end opacity-50"
+                : "group flex flex-col items-end"
             }
           >
             <span className="text-muted-foreground font-mono text-xs uppercase">
