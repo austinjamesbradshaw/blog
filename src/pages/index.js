@@ -95,7 +95,7 @@ export const pageQuery = graphql`
     }
     allMdx(
       filter: { fields: { isProjectOverview: { eq: true } } }
-      sort: { frontmatter: { dateLaunched: DESC } }
+      sort: { frontmatter: { dateLaunched: ASC } }
     ) {
       nodes {
         excerpt(pruneLength: 160)
