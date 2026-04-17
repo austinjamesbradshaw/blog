@@ -1,15 +1,15 @@
 ---
 title: "Custom Real User Monitoring (RUM) System"
-description: "A custom engineered TypeScript + AWS CloudWatch RUM system to increase my team's frontend app observability."
+description: "A custom engineered TypeScript + Amazon CloudWatch RUM system to increase my team's frontend app observability."
 dateLaunched: "2025-04-16"
 outcomes:
   [
-    "<strong>Built a custom TypeScript RUM provider</strong> on top of AWS CloudWatch Logs to satisfy security requirements.",
+    "<strong>Built a custom TypeScript RUM provider</strong> on top of Amazon CloudWatch Logs to satisfy security requirements.",
     "<strong>Reduced mean time to resolution by >50%</strong>, no longer solely relying on users to report issues.",
     "<strong>Implemented auto-event capture and session tracking</strong> so it can be installed on any React app in minutes.",
     "<strong>Batched events before delivery</strong>, reducing client-side network overhead and staying within CloudWatch Logs' rate limit.",
   ]
-skills: ["TypeScript", "AWS Cloudwatch"]
+skills: ["TypeScript", "AWS", "Amazon CloudWatch"]
 thumbnail: "./thumbnail.png"
 hero: "./hero.png"
 ---
@@ -45,7 +45,7 @@ Here were some options we looked at:
 
 - **PostHog** - I was familiar with PostHog from my hobby projects (thanks for the free-tier) and was a fan. We couldn't use their cloud service, but I was curious if self-hosting would be a solution. While its features were arguably the best, we ultimately decided we couldn't afford the implementation and maintenance cost of self-hosting. We needed something managed.
 - **Grafana LGTM Stack** - A few other teams in the enterprise were making use of Grafana, so we figured that could be a good option, too. We found it could definitely do what we needed, but again, we had concerns about self-hosting it within our small team.
-- **AWS CloudWatch** - Our team is deep in the AWS ecosystem. It's where our infra lives... our backend team was using CloudWatch for their observability... it was a natural consideration for us. Our access to the ecosystem allowed us to easily put together a proof of concept using CloudWatch Logs and a dashboard.
+- **Amazon CloudWatch** - Our team is deep in the AWS ecosystem. It's where our infra lives... our backend team was using CloudWatch for their observability... it was a natural consideration for us. Our access to the ecosystem allowed us to easily put together a proof of concept using CloudWatch Logs and a dashboard.
 
 Ultimately, we chose to use CloudWatch for log ingestion, storage, visualization, and alerts.
 
