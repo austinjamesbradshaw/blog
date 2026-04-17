@@ -5,7 +5,7 @@ const ProjectDetails = ({ skills, outcomes, dateLaunched }) => {
   return (
     <div className="mb-6">
       <div className="divide-border divide-y">
-        <div className="grid grid-cols-[160px_1fr] gap-4 py-2.5">
+        <div className="grid grid-rows-[18px_1fr] gap-2 py-4 sm:grid-cols-[160px_1fr] sm:grid-rows-1 sm:gap-4 sm:py-2.5">
           <span className="text-muted-foreground flex items-start gap-1.5 pt-0.5 font-mono text-xs tracking-wider uppercase">
             <Activity className="size-3.5" /> Status
           </span>
@@ -21,7 +21,7 @@ const ProjectDetails = ({ skills, outcomes, dateLaunched }) => {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-[160px_1fr] gap-4 py-2.5">
+        <div className="grid grid-rows-[18px_1fr] gap-2 py-4 sm:grid-cols-[160px_1fr] sm:grid-rows-1 sm:gap-4 sm:py-2.5">
           <span className="text-muted-foreground flex items-start gap-1.5 pt-0.5 font-mono text-xs tracking-wider uppercase">
             <Zap className="size-3.5" /> Skills
           </span>
@@ -39,8 +39,8 @@ const ProjectDetails = ({ skills, outcomes, dateLaunched }) => {
           </div>
         </div>
         {outcomes && (
-          <div className="grid grid-cols-[160px_1fr] gap-4 py-2.5">
-            <span className="text-muted-foreground flex items-start gap-1.5 pt-0.5 font-mono text-xs tracking-wider uppercase">
+          <div className="grid grid-rows-[18px_1fr] gap-2 py-4 sm:grid-cols-[160px_1fr] sm:grid-rows-1 sm:gap-4 sm:py-2.5">
+            <span className="text-muted-foreground flex h-fit items-start gap-1.5 pt-0.5 font-mono text-xs tracking-wider uppercase">
               <Trophy className="size-3.5" /> Key Outcomes
             </span>
             <div className="text-sm leading-relaxed">
