@@ -18,7 +18,7 @@ hero: "./hero.png"
 
 I work at [Lockheed Martin](https://lockheedmartin.com) on a small team that builds and mantains enterprise apps across the company. The vast majority of our users are internal employees and thus are easy to reach via Teams or an email (and vice versa) - something maybe our team had relied on too heavily for too long.
 
-After the launch of a particular app encountered some unexpected problems **that our users had to catch for us**, I rallied the team to look at our current level of observability.
+After we encountered some unexpected problems with the launch of a particular app **that our users had to catch for us**, I rallied the team to look at our current level of observability.
 
 We concluded that:
 
@@ -43,9 +43,9 @@ Now came time to see what tools we could use to meet our requirements. In a secu
 
 Here were some options we looked at:
 
-- **PostHog** - I was familiar with PostHog from my hobby projects (thanks for the free-tier) and was a fan. We couldn't use their cloud service, but I was curious if self-hosting would be a solution. While it's features were arguably the best, we ultimately decided we couldn't afford the implementation and maintenance cost of self-hosting. We needed something managed.
-- **Grafana LGTM Stack** - A few other teams in the enterprise were making use of Grafana, so we figured that could be a good option, too. We found it could definitely do what we needed, but we again ran into concerns about implementation and maintenance costs self-hosting it within our small team.
-- **AWS CloudWatch** - Our team is deep in the AWS ecosystem. It's where our infra lives... our backend team was using CloudWatch for thier observability... it was a natural consideration for us. Our access to the ecosystem allowed us to easily put together a proof of concept using CloudWatch Logs and a dashboard.
+- **PostHog** - I was familiar with PostHog from my hobby projects (thanks for the free-tier) and was a fan. We couldn't use their cloud service, but I was curious if self-hosting would be a solution. While its features were arguably the best, we ultimately decided we couldn't afford the implementation and maintenance cost of self-hosting. We needed something managed.
+- **Grafana LGTM Stack** - A few other teams in the enterprise were making use of Grafana, so we figured that could be a good option, too. We found it could definitely do what we needed, but again, we had concerns about self-hosting it within our small team.
+- **AWS CloudWatch** - Our team is deep in the AWS ecosystem. It's where our infra lives... our backend team was using CloudWatch for their observability... it was a natural consideration for us. Our access to the ecosystem allowed us to easily put together a proof of concept using CloudWatch Logs and a dashboard.
 
 Ultimately, we chose to use CloudWatch for log ingestion, storage, visualization, and alerts.
 
@@ -78,7 +78,7 @@ type Log = {
 
 It's human readable, easily extensible, and easy to filter once in CloudWatch.
 
-**2) It had to comply with CloudWatch Log's rate limit.** We'd send our logs through `PutLogEvents` commands directly to the CloudWatch API, so we're limited to 5,000 transactions per second.
+**2) It had to comply with CloudWatch Log's rate limit.** We send our logs through CloudWatch `PutLogEvents` commands, which have a 5,000 transaction per second limit.
 
 Our apps individually don't have huge user bases, but there's a lot of apps, so to maximize our runway before reaching that limit, I implemented some logic to send events in batches every few seconds, rather than one request per event.
 
