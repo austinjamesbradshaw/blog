@@ -89,7 +89,7 @@ function HowdyMessage() {
     }
     if (process.env.GATSBY_WELCOME_IMG) {
       return (
-        <span className="flex items-center">
+        <span className="flex shrink-0 items-center">
           {"Howdy,"}
           <img
             className="ml-1 size-4 shrink-0"
@@ -103,7 +103,7 @@ function HowdyMessage() {
   }
 
   return (
-    <div className="animate-in ease-bubble fade-in zoom-in fill-mode-backwards after:border-border absolute top-12 right-22 z-10 origin-bottom-right rounded-xl border bg-white px-2 py-0.5 text-[13px] text-nowrap shadow-md delay-1000 duration-500 after:absolute after:right-1 after:-bottom-0.75 after:-z-10 after:block after:h-1.5 after:w-3 after:rotate-10 after:skew-12 after:border-r after:border-b after:bg-white after:content-['']">
+    <div className="animate-in ease-bubble fade-in zoom-in fill-mode-backwards after:border-border absolute top-12 right-22 z-10 flex origin-bottom-right rounded-xl border bg-white px-2 py-0.5 text-[13px] text-nowrap shadow-md delay-1000 duration-500 after:absolute after:right-1 after:-bottom-0.75 after:-z-10 after:block after:h-1.5 after:w-3 after:rotate-10 after:skew-12 after:border-r after:border-b after:bg-white after:content-['']">
       <Message />
     </div>
   )
