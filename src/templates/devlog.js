@@ -1,8 +1,8 @@
 import * as React from "react"
 import { graphql, Link } from "gatsby"
 
-import Layout from "../components/layout"
-import Seo from "../components/seo"
+import Layout from "../components/Layout"
+import Seo from "../components/Seo"
 
 const DevlogTemplate = ({ data, children, pageContext, location }) => {
   const devlog = data.mdx
