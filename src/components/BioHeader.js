@@ -89,7 +89,7 @@ function HowdyMessage() {
     }
     if (process.env.GATSBY_WELCOME_IMG) {
       return (
-        <span className="flex shrink-0 items-center">
+        <span className="flex min-w-17.5 shrink-0 items-center">
           {"Howdy,"}
           <img
             className="ml-1 size-4 shrink-0"
