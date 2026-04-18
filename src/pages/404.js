@@ -3,19 +3,28 @@ import { graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import { FileQuestion } from "lucide-react"
 
 const NotFoundPage = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata.title
 
   return (
-    <Layout location={location} title={siteTitle}>
-      <h1>404: Not Found</h1>
-      <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
+    <Layout
+      location={location}
+      title={siteTitle}
+      projectName={"Page Not Found"}
+    >
+      <div className="flex flex-1 items-center justify-center">
+        <span className="flex h-fit w-fit items-center gap-2">
+          <FileQuestion className="size-7" />
+          <h1 className="text-3xl">Page Not Found</h1>
+        </span>
+      </div>
     </Layout>
   )
 }
 
-export const Head = () => <Seo title="404: Not Found" />
+export const Head = () => <Seo title="Page Not Found" />
 
 export default NotFoundPage
 
