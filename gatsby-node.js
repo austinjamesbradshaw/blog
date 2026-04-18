@@ -98,7 +98,7 @@ exports.createPages = async ({ graphql, actions }) => {
     createPage({
       path: `/projects/${projectSlug}`,
       component: `${require.resolve(
-        `./src/templates/project.js`,
+        `./src/templates/Project.js`,
       )}?__contentFilePath=${overview.internal.contentFilePath}`,
       context: {
         id: overview.id,
@@ -135,7 +135,7 @@ exports.createPages = async ({ graphql, actions }) => {
       createPage({
         path: `/projects/${projectSlug}/devlogs/${currentLog.fields.devlogSlug}`,
         component: `${require.resolve(
-          `./src/templates/devlog.js`,
+          `./src/templates/Devlog.js`,
         )}?__contentFilePath=${currentLog.internal.contentFilePath}`,
         context: {
           id: currentLog.id,
